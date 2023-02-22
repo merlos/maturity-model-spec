@@ -26,8 +26,3 @@ Maturity models are often used as a tool for benchmarking, assessing progress ov
 
 - **Indicator Evaluation** Is the level or levels that are assigned in a particular entity for a particular indicator within an evaluation. For example, the evaluation of the indicator "user of word processor advanced features" within UNICEF is level 3.
 
-
-## Data Model
-
-|----|----|
-code
