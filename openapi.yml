@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Maturity Model Data Model Standard
+  title: Maturity Model Specification
   description: |-
     Simple maturity model standard model and API.
     
@@ -35,7 +35,7 @@ tags:
   - name: Instances
     description: Instances
 paths:
-  /products:
+  /maturitymodels:
     get:
       responses:
         '200':
