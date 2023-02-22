@@ -23,23 +23,52 @@ externalDocs:
   url: http://github.com/merlos/maturity-model-spec
 tags:
   - name: Models
-    description: Everything about your Pets
+    description: Models
     externalDocs:
       description: Find out more
       url: http://swagger.io
-  - name: store
-    description: Access to Petstore orders
+  - name: Evaluations
+    description: Access to evaluation items
     externalDocs:
       description: Find out more about our store
       url: http://swagger.io
-  - name: Instances
-    description: Instances
+
 paths:
   /maturitymodels:
-    get:
+    put:
+      tags:
+        - pet
+      summary: Update an existing model
+      description: Update an existing maturity model by code
+      operationId: updatePet
+      requestBody:
+        description: Update an existent maturity model in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MaturityModel'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/MaturityModel'
+        required: true
       responses:
         '200':
-          description: OK
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaturityModel'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/MaturityModel'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pet not found
+        '405':
+          description: Validation exception
+
+
 components:
   schemas:
     MaturityModel:
