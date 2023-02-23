@@ -83,8 +83,10 @@ components:
       properties:
         code: 
           type: string
+          pattern: '[a-zA-Z0-9\-\.\_]+'
           example: "MM01"
-          description: "A short string identifier. Once assigned it should not be modified. It is used as external reference for the evaluation."
+          
+          description: "A short string identifier. Once assigned it should not be modified. It is used as external reference for the evaluation. "
         name: 
           type: string
           example: "Digital Resilience Maturity Model"
