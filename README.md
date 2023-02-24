@@ -11,6 +11,24 @@ Maturity models help organizations to take steps they need to take to improve th
 Maturity models typically include a set of criteria or characteristics that define each level of maturity, along with guidelines or best practices that organizations can use to progress from one level to the next. The criteria may be based on industry standards, expert opinions, or research findings, and the model may be customized to the specific needs and goals of the organization.
 
 Maturity models are often used as a tool for benchmarking, assessing progress over time, and identifying areas for improvement. They are used in a wide range of industries and disciplines, including software development, cybersecurity, project management, and quality assurance, among others.
+
+### Abstract
+There are many maturity models in the wild. These models help organizations and teams to achieve, in an incremental and iterative way to become more proficient in the specific area of the maturity model.
+      
+Most of these models can be represented in a share data model. The goal of this specification is to define a share exchange data format.
+This format can be used for:
+
+- Maturity model tracking applications 
+- Maturity model benchmark websites.
+- External evaluation and audit companyes
+- Landscape analysis publications
+    
+### Scope of the definition
+- Specification of the maturity model exchange format (json format)
+- Basic API Endpoint definition (non-normative)
+    
+### Out of scope:
+    - Authentication and authorization mechanisms, as they may vary for each use case.
     
 ## Concepts
 
@@ -26,3 +44,8 @@ Maturity models are often used as a tool for benchmarking, assessing progress ov
 
 - **Indicator Evaluation** Is the level or levels that are assigned in a particular entity for a particular indicator within an evaluation. For example, the evaluation of the indicator "user of word processor advanced features" within UNICEF is level 3.
 
+## Model Example
+
+
+
+## Evaluation example
