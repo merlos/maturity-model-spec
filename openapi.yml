@@ -2,17 +2,7 @@ openapi: 3.0.3
 info:
   title: Maturity Model Specification
   description: |-
-    Simple maturity model standard model and API.
-    
-    Concepts:
-      - Maturity Model: Is a set of indicators. For instance, a maturity model may measure how mature is an organization in terms of digital dexterity.
-      - Indicator: is a property that whose maturity is going to be evaluated. For instance, following the example of digital dexterity, an indicator may be the use of word processor advanced features within the organization 
-      - Maturity Levels: Represent the different maturity states available in the maturity model. Typically Maturity models use three levels or maturity: Low, Medium, High or Level 1, Level 2 and Level 3. 
-      - Indicator Maturity Level: For each indicator, it indicates what are the conditions required in order to achieve that level of maturity. For example, for the indicator "use of word processor advanced features", the maturity level 1 can be defined as "less than 33% of the users of the organization have ever used the automatic index in a word document".
-      - Maturity Evaluation: Is the evaluation under a maturity model for a particular entity. For example, when the digital dexterity maturity model is used to evaluate an organization such as UNICEF.
-      - Indicator Evaluation: Is the level or levels that are assigned in a particular entity for a particular indicator within an evaluation. For example, the evaluation of the indicator "user of word processor advanced features" within UNICEF is level 3.
-      
-   
+    Simple maturity model specification data model and API.
 #  termsOfService: http://pending.com
   license:
     name: Creative Commons 4.0
@@ -23,31 +13,47 @@ externalDocs:
   url: http://github.com/merlos/maturity-model-spec
 tags:
   - name: Models
-    description: Models
-    externalDocs:
-      description: Find out more
-      url: http://swagger.io
+    description: Endpoints to manage the definition of the Maturity Models
+#    externalDocs:
+#      description: 
+      
   - name: Evaluations
-    description: Access to evaluation items
-    externalDocs:
-      description: Find out more about our store
-      url: http://swagger.io
+    description: Endpoints to manage the evaluations against the maturity models
+#    externalDocs:
+#      description: Find out more about our store
+#      url: http://swagger.io
 
 paths:
-  /maturitymodels:
-    put:
+  /models:
+    get: 
       tags:
-        - pet
-      summary: Update an existing model
-      description: Update an existing maturity model by code
-      operationId: updatePet
+        - Models
+      summary: Gets the list of existing maturity models
+      description: Gets the list of existing maturity models in the database
+      operationId: getAllModels
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaturityModelList'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: No models found
+        '405':
+          description: Validation exception
+    post: 
+      tags: 
+        - Models
+      summary: Create a new model
+      description: Creates an existing maturity model.
+      operationId: createModel
       requestBody:
         description: Update an existent maturity model in the store
         content:
           application/json:
-            schema:
-              $ref: '#/components/schemas/MaturityModel'
-          application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/MaturityModel'
         required: true
@@ -67,10 +73,81 @@ paths:
           description: Pet not found
         '405':
           description: Validation exception
-
+   
+  
+  /models/{code}:
+    get:
+      tags:
+        - Models
+      summary: Gets an specific maturity model by code
+      description: |-
+        Gets a complete maturity model by code.
+        
+      operationId: getModel
+      parameters:
+        - name: code
+          in: path
+          description: Code of the maturity model to be returned
+          required: true
+          schema:
+            type: string
+            pattern: '[a-zA-Z0-9\-\.\_]+'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaturityModel'
+        '400':
+          description: Invalid Code supplied
+        '404':
+          description: Maturity model not found
+        '405':
+          description: Validation exception
+    put:
+      tags: 
+        - Models
+      summary: Update an existing model
+      description: Update an existing maturity model by code
+      operationId: updateModel
+      parameters:
+        - name: code
+          in: path
+          description: Code of the maturity model to be returned
+          required: true
+          schema:
+            type: string
+            pattern: '[a-zA-Z0-9\-\.\_]+'
+      requestBody:
+        description: Update an existent maturity model in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MaturityModel'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaturityModel'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Maturity models not found
+        '405':
+          description: Validation exception
+#      externalDocs:
+#        description: Learn more about user operations provided by this API.
+#        url: http://api.example.com/docs/user-operations/
+    
 
 components:
   schemas:
+  
+  
     MaturityModel:
       description: |- 
         A maturity model is a set of indicators. 
@@ -78,23 +155,38 @@ components:
         The way indicators can be selected is defined by the type of mode
           - Unilevel, means that only one level can be selected. For example, if the for each indicator the levels of maturity are Low, Medium and High, it means that only one of them can be selected.
           - Multi level means that an indicator may have selected more than one level at a time. Which means that each level is independent. For example, if for an indicator there are two levels, such as Level A and Level B, it means that any of them can be achieved independently.
-        
       type: object
       properties:
         code: 
           type: string
           pattern: '[a-zA-Z0-9\-\.\_]+'
           example: "MM01"
-          
-          description: "A short string identifier. Once assigned it should not be modified. It is used as external reference for the evaluation. "
+          description: "A short string identifier. Once assigned it should not be modified. It is used as external reference for the evaluation."
         name: 
           type: string
           example: "Digital Resilience Maturity Model"
-        varsion: 
+        specVersion: 
+          type: string
+          pattern: '[0-9]\.[0-9]'
+          example: 0.1
+          description: "Version of the Maturiy Model Specification this model is based on. Format: Number a dot and another number"
+        version: 
           type: integer
           example: 1
           description: "Numeric version of the maturity model. It is used to keep track of the compatibility."
+        maturityLevels:
+          description: |-
+            List of the different levels of maturity the model supports. For example, Low, Medium, High or Level 1, Level 2 and Level 3.
+            By default, the list should be ordered by code alphabetically.
+          type: array
+          items:
+             $ref: "#/components/schemas/MaturityLevel"
+          
         indicators:
+          description: |- 
+            List of the different indicators of the maturity model. 
+            By default the list should be ordered by code alphabetically.
+    
           type: array
           items: 
             $ref: "#/components/schemas/Indicator"  
@@ -107,18 +199,33 @@ components:
             - MultiLevel
           default: UniLevel
           nullable: true
-        maturityLevels:
+        attributes:
           type: array
-          items:
-             $ref: "#/components/schemas/MaturityLevel"  
+          items: 
+            $ref: "#/components/schemas/ModelAttribute"  
+        references: 
+          type: array
+          items: 
+            $ref: "#/components/schemas/Reference"
+       
+    
+    MaturityModelList:
+      description: List of Maturity models
+      type: array
+      items:
+        $ref: "#/components/schemas/MaturityModel"  
+    
     
     MaturityLevel:
       description: |- 
         Each possible indicator value belongs to a level
       type: object
       properties:
-        id: 
-          type: integer
+        code: 
+          type: string
+          example: "L1"
+          pattern: '[a-zA-Z0-9\-\.\_]+'
+          description: "A short string identifier. Once assigned it should not be modified. It is used as external reference."
         name: 
           type: string
           example: "Level 1"
@@ -129,41 +236,32 @@ components:
           description: Weight of the level 
           type: number
           default: 1.0  
+   
     
-
-    IndicatorCategory:
+    ModelAttribute:
+      description: |- 
+        Attributes function as tags, labels that can be assigned to indicators. Attributes are useful to classify, categorize or filter the indicators. For example, indicators related with governance can have this attribute.
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
+        code: 
+          type: string
+          example: "attr1"
+          pattern: '[a-zA-Z0-9\-\.\_]+'
+          description: "A short string identifier. Once assigned it should not be modified. It is used as external reference."
         name: 
           type: string
-        attributes:
-          type: array
-          items:
-             $ref: '#/components/schemas/Attribute'
+          example: "Analysis and design"
+        description: 
+          type: string
+          example: "Analysis and design is the phase in which the analysis of a solution is performed."
     
-    Attribute:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        category:
-          $ref: '#/components/schemas/IndicatorCategory'
-          
+
     Indicator:
       description: |-
         A maturity model is a list of indicators. Each indicator has a set of levels of compliance. For example an indicator can be "Information Security Awareness training".
         A indicator belongs to a particular level. 
-        To calculate the weight of the indicator = 
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
-          example: 10
         code:
           type: string
           example: "DP-LF"
@@ -175,7 +273,6 @@ components:
           type: string
           example: |-
             As part of the business analysis, requirement decisions it is ensured that personal  data collected for the limited specified purposes has a legitimate base that supports it.
-        
         weight: 
           type: number
           default: 1.0  
@@ -188,25 +285,50 @@ components:
             Each indicator has a set of maturity levels, f.i. level 1, level 2, level 3.
             Each level has a description that formulates what are the requirements 
             in order to comply with it.
-        categories:
+        attributes:
+          description: "List of attributes assigned to this indicator"
           type: array
           items: 
-             $ref: '#/components/schemas/Attribute'  
-    
+             type: object
+             properties:
+              modelAttributeCode:
+                type: string
+                example: "attr1"
+        references:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reference'
+          description: |- 
+           External references, links to guidance, more information, etc. 
+                
     
     IndicatorMaturityLevel:
+      description: |- 
+        Provides a condition or a set of conditions to comply with the indicator.
+        Links a maturity level with an indicator.
+        For example: If there are three levels, there could be one IndicatorMaturiryLevel for each of these three levels.
       type: object
       properties: 
-        code: 
+        indicatorCode:
           type: string
-          example: "Ind1-Lev1"
-        maturityLevel:  
-          $ref: '#/components/schemas/MaturityLevel'
+          example: "DP-LF"
+          description: "Code of the indicator it is linked to"
+        maturityLevelCode:
+          type: string
+          example: "L1"
+          description: "Maturity level it is linked to" 
         description:
           type: string
           example: "In order to comply with this level on this indicator A, B and C are in place."
-          description: "The description explains what are the requirements that for this indicator, the item evaluated needs to comply with."
-        
+          description: "The description explains what are the requirements for this indicator that are evaluated to comply with this maturity level."
+        references:
+          type: array
+          items:
+            $ref: '#/components/schemas/Reference'
+          description: |- 
+           External references, links to guidance, more information, etc. 
+           
+           
     MaturityEvaluation:
       description: |-
         Defines the values of a particular instance of a model. For example, if the 
@@ -226,13 +348,23 @@ components:
         maturityModelCode:
           type: string
           description: "Code of the maturity model"
+        computedScore: 
+          type: number
+          description: "The overall computed score."
         selectedIndicators:
           description: |-
             List of the selected indicators. 
           type: array
           items:
             $ref: '#/components/schemas/IndicatorEvaluation'
-         
+        
+    
+    MaturityEvaluationList:
+      type: array
+      description: "List of Maturity model evaluations"
+      items:
+        $ref: "#/components/schemas/MaturityEvaluation"
+        
     IndicatorEvaluation: 
       type: object
       properties:
@@ -286,4 +418,15 @@ components:
           type: boolean
           default: false
           
+    Reference:
+      type: object
+      description: |- 
+        External reference. It is useful to provide guidance and more information with regard a particular indicator.
+      properties:
+        name: 
+          type: string
+          example: More information
+        url:
+          type: string
+          example: http://github.com/merlos/maturity-model-spec
           
