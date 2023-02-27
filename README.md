@@ -1,4 +1,4 @@
-# Maturity Model Specification
+# Maturity Model Specification V0.1
 
 The goal of this specification is to define a standard exchange format for sharing values of maturity models.
 
@@ -49,3 +49,23 @@ This format can be used for:
 
 
 ## Evaluation example
+
+
+## General considerations about the specification
+
+ * **Custom extensions**
+    There may be needs or specific situation that are not curently covered by the specification. For example, a particular maturity model may force to have an specific order or the indicators other than the alphabetical code or additional properties may be needed to calculate the weight of an indicator. In those cases, to comply with the specification the additional properties shall be prepended by the letter "x". For example, if the indicators require a new attribute to specify the order in which they should be displayed (other than the default which is alphabetically by code) the `xPosition` attribute can be included in the JSON.
+
+    Implementations shall not _break_ or display errors if an unknown attribute that starts with `x` is part of the data model. If it is not supported, it should be ignored.
+
+
+
+ * **Categories/Subcategories**. Typically, models are organized in some degreerdering indicators and 
+
+
+## Governance
+
+Currently, the specification is in a very early stage and is based on the observation of different maturity model.
+
+##
+## License
