@@ -48,10 +48,10 @@ paths:
       tags: 
         - Models
       summary: Create a new model
-      description: Creates an existing maturity model.
+      description: Creates a new maturity model
       operationId: createModel
       requestBody:
-        description: Update an existent maturity model in the store
+        description: Create an new maturity model
         content:
           application/json:
             schema:
@@ -69,8 +69,6 @@ paths:
                 $ref: '#/components/schemas/MaturityModel'
         '400':
           description: Invalid ID supplied
-        '404':
-          description: Pet not found
         '405':
           description: Validation exception
    
@@ -142,7 +140,112 @@ paths:
 #      externalDocs:
 #        description: Learn more about user operations provided by this API.
 #        url: http://api.example.com/docs/user-operations/
-    
+  /evaluations:
+    get: 
+      tags:
+        - Evaluations
+      summary: Gets the list of existing evaluations
+      description: Gets the list of existing evaluations in the database
+      operationId: getAllEvaluations
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaturityEvaluationList'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: No evaluations found
+        '405':
+          description: Validation exception
+    post: 
+      tags: 
+        - Evaluations
+      summary: Create a new evaluation
+      description: Creates a new evaluation
+      operationId: createEvaluation
+      requestBody:
+        description: Create an new ervaluation
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MaturityEvaluation'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaturityEvaluation'
+        '405':
+          description: Validation exception
+   
+  
+  /evaluations/{id}:
+    get:
+      tags:
+        - Evaluations
+      summary: Gets an specific maturity model by code
+      description: |-
+        Gets a complete maturity model by code.
+        
+      operationId: getEvaluation
+      parameters:
+        - name: id
+          in: path
+          description: id of the maturity evaluation to be returned
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaturityEvaluation'
+        '400':
+          description: Invalid id supplied
+        '404':
+          description: Maturity evaluation not found
+        '405':
+          description: Validation exception
+    put:
+      tags: 
+        - Evaluations
+      summary: Update an existing model
+      description: Update an existing maturity model by code
+      operationId: updateEvaluation
+      parameters:
+        - name: id
+          in: path
+          description: Id to be returned
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Update an existent evaluation in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MaturityEvaluation'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaturityEvaluation'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Evaluation not found
+        '405':
+          description: Validation exception    
 
 components:
   schemas:
