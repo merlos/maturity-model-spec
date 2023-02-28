@@ -1,4 +1,4 @@
-# Maturity Model Specification V0.1
+# Maturity Model Specification V0.1-WIP
 
 The goal of this specification is to define a standard exchange format for sharing values of maturity models.
 
@@ -44,12 +44,164 @@ This format can be used for:
 
 - **Indicator Evaluation** Is the level or levels that are assigned in a particular entity for a particular indicator within an evaluation. For example, the evaluation of the indicator "user of word processor advanced features" within UNICEF is level 3.
 
-## Model Example
+## Model Example (JSON)
 
+```json
+{
+  "code": "MM01",
+  "name": "Digital Resilience Maturity Model",
+  "specVersion": "0.1",
+  "version": 1,
+  "maturityLevels": [
+    {
+      "code": "L1",
+      "name": "Level 1",
+      "description": "Lowest value",
+      "weight": 1
+    }
+  ],
+  "indicators": [
+    {
+      "code": "DP-LF",
+      "name": "Legitimate and Fair",
+      "shortDescription": "As part of the business analysis, requirement decisions it is ensured that personal  data collected for the limited specified purposes has a legitimate base that supports it.",
+      "weight": 1,
+      "indicatorMaturityLevels": [
+        {
+          "indicatorCode": "DP-LF",
+          "maturityLevelCode": "L1",
+          "description": "In order to comply with this level on this indicator A, B and C are in place.",
+          "references": [
+            {
+              "name": "More information",
+              "url": "http://github.com/merlos/maturity-model-spec"
+            }
+          ]
+        }
+      ],
+      "attributes": [
+        {
+          "modelAttributeCode": "attr1"
+        }
+      ],
+      "references": [
+        {
+          "name": "More information",
+          "url": "http://github.com/merlos/maturity-model-spec"
+        }
+      ]
+    }
+  ],
+  "indicatorMode": "UniLevel",
+  "attributes": [
+    {
+      "code": "attr1",
+      "name": "Analysis and design",
+      "description": "Analysis and design is the phase in which the analysis of a solution is performed."
+    }
+  ],
+  "references": [
+    {
+      "name": "More information",
+      "url": "http://github.com/merlos/maturity-model-spec"
+    }
+  ]
+}
+```
+
+
+## Model in (CSV)
+
+`maturitymodel.csv`
+ - maturityModel.code
+ - maturityModel.name
+ - maturityModel.specVersion
+ - maturityModel.version
+ 
+`maturitylevels.csv`
+ - maturityLevel.code
+ - maturityLevel.name
+ - maturityLevel.shortDescription
+ - maturityLevel.weight
+
+`indicators.csv`
+ - indicator.code
+ - indicator.name
+ - indicator.shortDescription
+ 
+ `indicatorattributes.csv`
+ - indicator.code
+ - indicator.attribute
+
+`indicatormaturitylevels.csv`
+ - indicator.code, 
+ - maturityLevel.code
+ - description
+
+
+`references.csv`
+ - indicator.code 
+ - maturitylevel.code
+ - reference.name
+ - reference.url
+
+
+Model in 
 
 
 ## Evaluation example
 
+```json
+{
+  "id": 0,
+  "name": "string",
+  "description": "string",
+  "maturityModelCode": "string",
+  "computedScore": 0,
+  "selectedIndicators": [
+    {
+      "id": 100,
+      "maturityEvaluationId": 0,
+      "indicatorCode": "DP-LF",
+      "applies": true,
+      "comment": "string",
+      "evaluatedLevels": [
+        {
+          "id": 1,
+          "maturityModelValueCode": "MM01",
+          "indicatorCode": "DP-LF",
+          "indicatorEvaluationId": 100,
+          "isSelected": false
+        }
+      ]
+    }
+  ]
+}
+```
+
+# Evaluation in CSV
+
+evaluation.csv
+- id
+- name
+- description
+- maturityModelCode
+- computedScore
+
+evaluatedIndicators.csv
+- id,
+- maturityEvaluationId,
+- indicatorCode
+- applies
+- comment
+
+
+selectedLevels.csv
+- selectedIndicatorId
+- maturityModelValueCode
+- indicatorCode
+- selectedIndicatorId
+- isSelected
 
 ## General considerations about the specification
 

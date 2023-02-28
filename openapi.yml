@@ -1,13 +1,13 @@
 openapi: 3.0.3
 info:
-  title: Maturity Model Specification 
+  title: Maturity Model Specification
   description: |-
     Simple maturity model specification data model and API.
 #  termsOfService: http://pending.com
   license:
     name: Creative Commons 4.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
-  version: 0.1-WIP
+  version: 1.0.0
 externalDocs:
   description: Find out more about this
   url: http://github.com/merlos/maturity-model-spec
@@ -250,6 +250,12 @@ paths:
 components:
   schemas:
   
+    MaturityModelList:
+      description: List of Maturity models
+      type: array
+      items:
+        $ref: "#/components/schemas/MaturityModel"  
+    
   
     MaturityModel:
       description: |- 
@@ -311,13 +317,6 @@ components:
           items: 
             $ref: "#/components/schemas/Reference"
        
-    
-    MaturityModelList:
-      description: List of Maturity models
-      type: array
-      items:
-        $ref: "#/components/schemas/MaturityModel"  
-    
     
     MaturityLevel:
       description: |- 
@@ -431,7 +430,13 @@ components:
           description: |- 
            External references, links to guidance, more information, etc. 
            
-           
+    MaturityEvaluationList:
+      type: array
+      description: "List of Maturity model evaluations"
+      items:
+        $ref: "#/components/schemas/MaturityEvaluation"
+        
+               
     MaturityEvaluation:
       description: |-
         Defines the values of a particular instance of a model. For example, if the 
@@ -444,16 +449,21 @@ components:
           description: |- 
             Name of the product/item that is going to ve evaluated against the maturity model
           type: string
+          example: "Evaluation of product X"
         description:
           type: string
           description: "Some overall comment about the state of this evaluation"
+          example: "Overall comment. The evaluation is positive."
           nullable: true
         maturityModelCode:
           type: string
           description: "Code of the maturity model"
+          example: "MM01"
         computedScore: 
           type: number
           description: "The overall computed score."
+          example: "99.1"
+          default: 0.0
         selectedIndicators:
           description: |-
             List of the selected indicators. 
@@ -462,11 +472,6 @@ components:
             $ref: '#/components/schemas/IndicatorEvaluation'
         
     
-    MaturityEvaluationList:
-      type: array
-      description: "List of Maturity model evaluations"
-      items:
-        $ref: "#/components/schemas/MaturityEvaluation"
         
     IndicatorEvaluation: 
       type: object
