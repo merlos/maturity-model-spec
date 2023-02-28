@@ -44,7 +44,7 @@ This format can be used for:
 
 - **Indicator Evaluation** Is the level or levels that are assigned in a particular entity for a particular indicator within an evaluation. For example, the evaluation of the indicator "user of word processor advanced features" within UNICEF is level 3.
 
-## Model Example (JSON)
+## Model Exchange format in JSON
 
 ```json
 {
@@ -110,30 +110,36 @@ This format can be used for:
 ```
 
 
-## Model in (CSV)
+## Model Exchange format in CSV
 
 `maturitymodel.csv`
  - maturityModel.code
  - maturityModel.name
  - maturityModel.specVersion
  - maturityModel.version
+
+ maturityModel.uid = code+version
  
 `maturitylevels.csv`
+ - maturityModel.uid
  - maturityLevel.code
  - maturityLevel.name
  - maturityLevel.shortDescription
  - maturityLevel.weight
 
 `indicators.csv`
+ - maturityModel.uid
  - indicator.code
  - indicator.name
  - indicator.shortDescription
  
  `indicatorattributes.csv`
+ - maturityModel.uid
  - indicator.code
  - indicator.attribute
 
 `indicatormaturitylevels.csv`
+ - maturityModel.uid
  - indicator.code, 
  - maturityLevel.code
  - description
@@ -146,10 +152,8 @@ This format can be used for:
  - reference.url
 
 
-Model in 
 
-
-## Evaluation example
+## Evaluation Exchange format in JSON
 
 ```json
 {
@@ -179,28 +183,27 @@ Model in
 }
 ```
 
-# Evaluation in CSV
+# Evaluation exchange format in CSV
 
-evaluation.csv
+`evaluation.csv`
 - id
 - name
 - description
 - maturityModelCode
 - computedScore
 
-evaluatedIndicators.csv
+`evaluatedIndicators.csv`
 - id,
 - maturityEvaluationId,
 - indicatorCode
 - applies
 - comment
 
-
-selectedLevels.csv
-- selectedIndicatorId
+`evaluatedLevels.csv`
+- id
 - maturityModelValueCode
 - indicatorCode
-- selectedIndicatorId
+- indicatorEvaluationId
 - isSelected
 
 ## General considerations about the specification
