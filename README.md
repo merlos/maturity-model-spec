@@ -40,9 +40,9 @@ This format can be used for:
 
 - **Indicator Maturity Level** For each indicator, it indicates what are the conditions or criteria required in order to achieve or comply with that level of maturity. For example, for the indicator "use of word processor advanced features", the maturity level 1 can be defined as "less than 33% of the users of the organization have ever used the automatic index in a word document".
 
-- **Maturity Evaluation** Is the evaluation under a maturity model for a particular entity. For example, when the digital dexterity maturity model is used to evaluate an organization such as UNICEF.
+- **Maturity Assessment* Is the evaluation under a maturity model for a particular entity. For example, when the digital dexterity maturity model is used to evaluate an organization such as UNICEF.
 
-- **Indicator Evaluation** Is the level or levels that are assigned in a particular entity for a particular indicator within an evaluation. For example, the evaluation of the indicator "user of word processor advanced features" within UNICEF is level 3.
+- **Indicator Assessment** Is the level or levels that are assigned in a particular entity for a particular indicator within an evaluation. For example, the evaluation of the indicator "user of word processor advanced features" within UNICEF is level 3.
 
 ## Model Exchange format in JSON
 
