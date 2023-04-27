@@ -17,8 +17,8 @@ tags:
 #    externalDocs:
 #      description: 
       
-  - name: Evaluations
-    description: Endpoints to manage the evaluations against the maturity models
+  - name: Assessments
+    description: Endpoints to manage the assessments against the maturity models
 #    externalDocs:
 #      description: Find out more about our store
 #      url: http://swagger.io
@@ -140,38 +140,38 @@ paths:
 #      externalDocs:
 #        description: Learn more about user operations provided by this API.
 #        url: http://api.example.com/docs/user-operations/
-  /evaluations:
+  /assessments:
     get: 
       tags:
-        - Evaluations
-      summary: Gets the list of existing evaluations
-      description: Gets the list of existing evaluations in the database
-      operationId: getAllEvaluations
+        - Assessments
+      summary: Gets the list of existing assessments
+      description: Gets the list of existing assessments in the database
+      operationId: getAllAssessments
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MaturityEvaluationList'
+                $ref: '#/components/schemas/MaturityAssessmentList'
         '400':
           description: Invalid ID supplied
         '404':
-          description: No evaluations found
+          description: No assessments found
         '405':
           description: Validation exception
     post: 
       tags: 
-        - Evaluations
-      summary: Create a new evaluation
-      description: Creates a new evaluation
-      operationId: createEvaluation
+        - Assessments
+      summary: Create a new assessment
+      description: Creates a new assessment
+      operationId: createAssessment
       requestBody:
-        description: Create an new ervaluation
+        description: Create an new assessment
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MaturityEvaluation'
+              $ref: '#/components/schemas/MaturityAssessment'
         required: true
       responses:
         '200':
@@ -179,24 +179,24 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MaturityEvaluation'
+                $ref: '#/components/schemas/MaturityAssessment'
         '405':
           description: Validation exception
    
   
-  /evaluations/{id}:
+  /assessment/{id}:
     get:
       tags:
-        - Evaluations
+        - Assessments
       summary: Gets an specific maturity model by code
       description: |-
         Gets a complete maturity model by code.
         
-      operationId: getEvaluation
+      operationId: getAssessments
       parameters:
         - name: id
           in: path
-          description: id of the maturity evaluation to be returned
+          description: id of the maturity assessment to be returned
           required: true
           schema:
             type: integer
@@ -206,19 +206,19 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MaturityEvaluation'
+                $ref: '#/components/schemas/MaturityAssessment'
         '400':
           description: Invalid id supplied
         '404':
-          description: Maturity evaluation not found
+          description: Maturity assessment not found
         '405':
           description: Validation exception
     put:
       tags: 
-        - Evaluations
+        - Assessments
       summary: Update an existing model
       description: Update an existing maturity model by code
-      operationId: updateEvaluation
+      operationId: updateAssessment
       parameters:
         - name: id
           in: path
@@ -227,11 +227,11 @@ paths:
           schema:
             type: integer
       requestBody:
-        description: Update an existent evaluation in the store
+        description: Update an existent assessment in the store
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MaturityEvaluation'
+              $ref: '#/components/schemas/MaturityAssessment'
         required: true
       responses:
         '200':
@@ -239,11 +239,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MaturityEvaluation'
+                $ref: '#/components/schemas/MaturityAssessment'
         '400':
           description: Invalid ID supplied
         '404':
-          description: Evaluation not found
+          description: Assessment not found
         '405':
           description: Validation exception    
 
@@ -270,7 +270,7 @@ components:
           type: string
           pattern: '[a-zA-Z0-9\-\.\_]+'
           example: "MM01"
-          description: "A short string identifier. Once assigned it should not be modified. It is used as external reference for the evaluation."
+          description: "A short string identifier. Once assigned it should not be modified. It is used as external reference for the assessment."
         name: 
           type: string
           example: "Digital Resilience Maturity Model"
@@ -430,17 +430,17 @@ components:
           description: |- 
            External references, links to guidance, more information, etc. 
            
-    MaturityEvaluationList:
+    MaturityAssessmentList:
       type: array
-      description: "List of Maturity model evaluations"
+      description: "List of Maturity model assessment"
       items:
-        $ref: "#/components/schemas/MaturityEvaluation"
+        $ref: "#/components/schemas/MaturityAssessment"
         
                
-    MaturityEvaluation:
+    MaturityAssessment:
       description: |-
         Defines the values of a particular instance of a model. For example, if the 
-        maturity model evaluates the maturity of an application in terms of security processes and best practices, it would provide the maturiy of that especific application.
+        maturity model evaluates the maturity of an application in terms of security processes and best practices, it would provide the maturity of that specific application.
       type: object
       properties:
         id: 
@@ -449,11 +449,11 @@ components:
           description: |- 
             Name of the product/item that is going to ve evaluated against the maturity model
           type: string
-          example: "Evaluation of product X"
+          example: "Assessment of product X"
         description:
           type: string
-          description: "Some overall comment about the state of this evaluation"
-          example: "Overall comment. The evaluation is positive."
+          description: "Some overall comment about the state of this assessment"
+          example: "Overall comment. The assessment is positive."
           nullable: true
         maturityModelCode:
           type: string
@@ -469,28 +469,28 @@ components:
             List of the selected indicators. 
           type: array
           items:
-            $ref: '#/components/schemas/IndicatorEvaluation'
+            $ref: '#/components/schemas/IndicatorAssessment'
         
     
         
-    IndicatorEvaluation: 
+    IndicatorAssessment: 
       type: object
       properties:
         id: 
           type: integer
           format: int64
           example: 100
-        maturityEvaluationId:
+        maturityAssessmentId:
           type: integer
           format: int64
-          description: "Reference to the maturity evaluation this indicator evaluation belongs to"
+          description: "Reference to the maturity assessment this indicator assessment belongs to"
         indicatorCode:
           type: string
           example: "DP-LF"
           description: "The code of the indicator that is being evaluated"
         applies: 
           description: |-
-            Does the indicator apply for this particular evaluation?
+            Does the indicator apply for this particular assessment?
           type: boolean
           default: true
         comment: 
@@ -508,7 +508,7 @@ components:
     EvaluatedLevel:
       type: object
       description: |-
-        For a particular indicator and for the evaluation of the maturity of a particular item, it represents the maturity levels that apply. 
+        For a particular indicator and for the assessment of the maturity of a particular item, it represents the maturity levels that apply. 
       properties:
         id: 
           type: integer
@@ -523,7 +523,7 @@ components:
           type: integer
           format: string
           example: "DP-LF"
-        indicatorEvaluationId:
+        indicatorAssessmentId:
           description: id of the selected indicator
           type: integer
           format: int64
